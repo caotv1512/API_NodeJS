@@ -2,8 +2,6 @@ import express from 'express';
 import configViewEngine from './configs/viewEngine';
 import courseRouter from './routers/course.router';
 import bodyParser from "body-parser";
-
-
 require ('dotenv').config();
 
 
