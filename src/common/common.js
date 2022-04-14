@@ -1,19 +1,7 @@
-const db = require('../common/connect');
+import Courses from '../models/course.schema';
+const db = require('../configs/connectDB');
 
-const Courses = {
-  type: "object",
-  properties: {
-    id: { type: "string"},
-    course_name: { type: "string"},
-    cost: { type: "number"},
-    description: { type: "string"},
-    teacher: { type: "string"}
-  },
-  require:["id, course_name, cost, description, teacher"],
-  additionalProperties: false
-};
-
-Courses.getAllCourse = function (result) {
+const getAllCourse = (Courses.getAllCourse = function (result) {
   db.query('SELECT * FROM courses', function (err, course) {
     if (err) {
       result(err);
@@ -21,9 +9,8 @@ Courses.getAllCourse = function (result) {
       result(course);
     }
   });
-};
-
-Courses.getById = function (id, result) {
+});
+const getCourseById = (Courses.getById = function (id, result) {
   db.query(`SELECT * FROM courses WHERE id=?`, id, function (err, course) {
     if (err || course.length === 0) {
       result(err);
@@ -31,9 +18,9 @@ Courses.getById = function (id, result) {
       result(course[0]);
     }
   });
-};
+});
 
-Courses.create = function (data, result) {
+const addNewCourse = (Courses.create = function (data, result) {
   db.query('INSERT INTO courses SET ?', data, function (err, course) {
     if (err) {
       result(err);
@@ -41,19 +28,12 @@ Courses.create = function (data, result) {
       result({ id: course.insertId, ...data });
     }
   });
-};
+});
 
-Courses.update = function (data, result) {
-  console.log(data);
+const updateCourse = (Courses.update = function (data, result) {
   db.query(
-    'UPDATE courses SET course_name=?,cost=?,description=?,tearcher=? WHERE id=?',
-    [
-      data.course_name,
-      data.cost,
-      data.description,
-      data.tearcher,
-      data.id
-    ],
+    'UPDATE courses SET course_name=?,cost=?,description=?,teacher=? WHERE id=?',
+    [data.course_name, data.cost, data.description, data.teacher, data.id],
     function (err, course) {
       if (err) {
         result(err);
@@ -62,9 +42,9 @@ Courses.update = function (data, result) {
       }
     }
   );
-};
+});
 
-Courses.remove = function (id, result) {
+const deleteCourse = (Courses.remove = function (id, result) {
   db.query('DELETE FROM courses WHERE id = ?', id, function (err, course) {
     if (err) {
       result(err);
@@ -72,5 +52,11 @@ Courses.remove = function (id, result) {
       result(`Delete course with id = ${id} successfully!!!`);
     }
   });
+});
+module.exports = {
+  getAllCourse,
+  getCourseById,
+  addNewCourse,
+  updateCourse,
+  deleteCourse
 };
-module.exports = Courses;

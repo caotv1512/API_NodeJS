@@ -7,8 +7,6 @@ const connection = mysql2.createConnection({
   password: '12345',
 });
 
-
-
 connection.connect(function (err) {
   if (err) throw err;
   console.log('Database connected!');
