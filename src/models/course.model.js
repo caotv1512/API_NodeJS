@@ -1,12 +1,16 @@
 const db = require('../common/connect');
 
-const Courses = function (course) {
-  this.id = course.id;
-  this.course_name = course.name;
-  this.description = course.description;
-  this.cost = course.cost;
-  this.coursescol = course.coursescol;
-  this.teacher = course.teacher;
+const Courses = {
+  type: "object",
+  properties: {
+    id: { type: "string"},
+    course_name: { type: "string"},
+    cost: { type: "number"},
+    description: { type: "string"},
+    teacher: { type: "string"}
+  },
+  require:["id, course_name, cost, description, teacher"],
+  additionalProperties: false
 };
 
 Courses.getAllCourse = function (result) {
@@ -40,20 +44,19 @@ Courses.create = function (data, result) {
 };
 
 Courses.update = function (data, result) {
+  console.log(data);
   db.query(
-    'UPDATE courses SET  course_name=?, description=?, cost=?, coursescol=?, teacher=? WHERE id=?',
+    'UPDATE courses SET course_name=?,cost=?,description=?,tearcher=? WHERE id=?',
     [
       data.course_name,
-      data.description,
       data.cost,
-      data.coursescol,
-      data.teacher,
+      data.description,
+      data.tearcher,
       data.id
     ],
     function (err, course) {
       if (err) {
         result(err);
-        console.log(err);
       } else {
         result(data);
       }
