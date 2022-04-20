@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken';
-import _APP from './_APP';
+// import _APP from './_APP';
+require('dotenv').config();
 
 // Tạo token
 const make = (user) => {
     return new Promise((resolve, reject) => {
-        jwt.sign({ data: user }, _APP.ACCESS_TOKEN, {
+        jwt.sign({ data: user },process.env.ACCESS_TOKEN, {
             algorithm: 'HS256',
-            expiresIn: _APP.TOKEN_TIME_LIFE
+            expiresIn:process.env.TOKEN_TIME_LIFE
         },
             function (err, _token) {
                 if (err) {
@@ -21,7 +22,7 @@ const make = (user) => {
 
 const check = (token) => {
     return new Promise((resolve, reject) => {
-        jwt.verify(token, _APP.ACCESS_TOKEN, (err, data) => {
+        jwt.verify(token,process.env.ACCESS_TOKEN, (err, data) => {
             if (err) {
                 reject(err);
             }
@@ -30,8 +31,6 @@ const check = (token) => {
 
     })
 }
-
-
 
 
 module.exports = {

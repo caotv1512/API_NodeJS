@@ -10,7 +10,12 @@ exports.getAllCourse = (req, res, next) => {
     res.status(200).send({ success: true, result: data });
   });
 };
-
+// exports.getAllCourse = async (req, res, next) => {
+//   const {data} = req.params;
+//   const result = await CoursesCommon.getAllCourse(data);
+//   res.status(200).send({ success: true, result: result });
+//   console.log(result);
+// };
 exports.getCourseById = (req, res) => {
   CoursesCommon.getCourseById(req.params.id, function (data) {
     res.status(200).send(data);

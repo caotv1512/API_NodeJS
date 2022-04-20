@@ -1,4 +1,4 @@
-import _JWT from './_JWT'
+import _JWT from '../../common/_JWT'
 
 const isAuth = async (req, res, next)=>{
     const token = req.headers.authorization;
